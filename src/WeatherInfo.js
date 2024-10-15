@@ -1,9 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import FormattedDate from "./FormattedDate";
 import WeatherIcon from "./WeatherIcon";
 import "./WeatherInfo.css";
 
 export default function WeatherInfo(props) {
+  const [unit, setUnit] = useState("celsius");
+
+  function convertToFahrenheit(event) {
+    event.preventDefault();
+    setUnit("fahrenheit");
+  }
+
+  function convertToCelsius(event) {
+    event.preventDefault();
+    setUnit("celsius");
+  }
+
+  function fahrenheitTemperature() {
+    return (props.data.temperature * 9) / 5 + 32;
+  }
+
   return (
     <div className="WeatherInfo">
       <div className="row">
@@ -24,9 +40,22 @@ export default function WeatherInfo(props) {
             <WeatherIcon code={props.data.icon} size={52} />
             <div>
               <span className="temperature">
-                {Math.round(props.data.temperature)}
+                {unit === "celsius"
+                  ? Math.round(props.data.temperature)
+                  : Math.round(fahrenheitTemperature())}
               </span>
-              <span className="unit">°C</span>
+              <span className="unit">
+                {unit === "celsius" ? "°C" : "°F"} |{" "}
+                {unit === "celsius" ? (
+                  <a href="/" onClick={convertToFahrenheit}>
+                    °F
+                  </a>
+                ) : (
+                  <a href="/" onClick={convertToCelsius}>
+                    °C
+                  </a>
+                )}
+              </span>
             </div>
           </div>
         </div>
