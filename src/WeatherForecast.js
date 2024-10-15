@@ -17,19 +17,10 @@ export default function WeatherForecast(props) {
   }
 
   if (loaded) {
+    // Only display today's weather (first element in the forecast array)
     return (
-      <div className="WeatherForecast row">
-        {forecast.map(function (day, index) {
-          if (index < 5) {
-            return (
-              <div className="col" key={index}>
-                <WeatherForecastPreview data={day} />
-              </div>
-            );
-          } else {
-            return null;
-          }
-        })}
+      <div className="WeatherForecast">
+        <WeatherForecastPreview data={forecast[0]} />
       </div>
     );
   } else {
